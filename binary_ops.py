@@ -23,8 +23,24 @@ def np_add_stride():
 def nps_add_stride():
     _ = nnops.ops.add(nps_a_stride, nps_b_stride)
 
+def np_mul():
+    _ = np_a * np_b
+
+def nps_mul():
+    _ = nnops.ops.mul(nps_a, nps_b)
+
+def np_mul_stride():
+    _ = np_a_stride * np_b_stride
+
+def nps_mul_stride():
+    _ = nnops.ops.mul(nps_a_stride, nps_b_stride)
+
 runner = pyperf.Runner()
-runner.bench_func('np_add', np_add)
-runner.bench_func('nps_add', nps_add)
-runner.bench_func('np_add_stride', np_add_stride)
-runner.bench_func('nps_add_stride', nps_add_stride)
+runner.bench_func('numpy add', np_add)
+runner.bench_func('nnops add', nps_add)
+runner.bench_func('numpy add with stride', np_add_stride)
+runner.bench_func('nnops add with stride', nps_add_stride)
+runner.bench_func('numpy mul', np_mul)
+runner.bench_func('nnops mul', nps_mul)
+runner.bench_func('numpy mul with stride', np_mul_stride)
+runner.bench_func('nnops mul with stride', nps_mul_stride)
