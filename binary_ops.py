@@ -1,4 +1,3 @@
-import pyperf
 import nnops.tensor, nnops.ops
 import numpy as np
 import torch
@@ -52,16 +51,28 @@ def th_mul_stride():
 def nps_mul_stride():
     _ = nnops.ops.mul(nps_a_stride, nps_b_stride)
 
-runner = pyperf.Runner()
-runner.bench_func('numpy add', np_add)
-runner.bench_func('torch add', th_add)
-runner.bench_func('nnops add', nps_add)
-runner.bench_func('numpy add with stride', np_add_stride)
-runner.bench_func('torch add with stride', th_add_stride)
-runner.bench_func('nnops add with stride', nps_add_stride)
-runner.bench_func('numpy mul', np_mul)
-runner.bench_func('torch mul', th_mul)
-runner.bench_func('nnops mul', nps_mul)
-runner.bench_func('numpy mul with stride', np_mul_stride)
-runner.bench_func('torch mul with stride', th_mul_stride)
-runner.bench_func('nnops mul with stride', nps_mul_stride)
+bench_add = 'add'
+bench_add_s = 'add with stride'
+bench_mul = 'mul'
+bench_mul_s = 'mul with stride'
+
+bench_func = {
+    'numpy': [
+        (bench_add, np_add),
+        (bench_add_s, np_add_stride),
+        (bench_mul, np_mul),
+        (bench_mul_s, np_mul_stride),
+    ],
+    'torch': [
+        (bench_add, th_add),
+        (bench_add_s, th_add_stride),
+        (bench_mul, th_mul),
+        (bench_mul_s, th_mul_stride),
+    ],
+    'nnops': [
+        (bench_add, nps_add),
+        (bench_add_s, nps_add_stride),
+        (bench_mul, nps_mul),
+        (bench_mul_s, nps_mul_stride),
+    ],
+}

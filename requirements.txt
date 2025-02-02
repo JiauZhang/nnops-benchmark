@@ -1,4 +1,4 @@
-pyperf
+pyperf=='2.8.1'
 nnops
 numpy
 torch

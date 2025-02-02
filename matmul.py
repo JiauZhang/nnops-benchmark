@@ -1,4 +1,3 @@
-import pyperf
 import nnops.tensor, nnops.ops
 import numpy as np
 import torch
@@ -34,10 +33,20 @@ def th_matmul_stride():
 def nps_matmul_stride():
     _ = nnops.ops.matmul(nps_a_stride, nps_b_stride)
 
-runner = pyperf.Runner()
-runner.bench_func('numpy matmul', np_matmul)
-runner.bench_func('torch matmul', th_matmul)
-runner.bench_func('nnops matmul', nps_matmul)
-runner.bench_func('numpy matmul with stride', np_matmul_stride)
-runner.bench_func('torch matmul with stride', th_matmul_stride)
-runner.bench_func('nnops matmul with stride', nps_matmul_stride)
+bench_matmul = 'matmul'
+bench_matmul_s = 'matmul with stride'
+
+bench_func = {
+    'numpy': [
+        (bench_matmul, np_matmul),
+        (bench_matmul_s, np_matmul_stride),
+    ],
+    'torch': [
+        (bench_matmul, th_matmul),
+        (bench_matmul_s, th_matmul_stride),
+    ],
+    'nnops': [
+        (bench_matmul, nps_matmul),
+        (bench_matmul_s, nps_matmul_stride),
+    ],
+}
